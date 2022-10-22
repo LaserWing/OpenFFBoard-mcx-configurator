@@ -43,6 +43,7 @@ import errors
 import activelist
 import tmcdebug_ui
 import odrive_ui
+import rmd_ui
 import vesc_ui
 import effects_monitor
 import effects_graph_ui
@@ -418,6 +419,12 @@ class MainUi(PyQt6.QtWidgets.QMainWindow, base_ui.WidgetUI, base_ui.Communicatio
                     self.profile_ui.set_save_btn(True)
                 elif classe_active["id"] == 0x89 or classe_active["id"] == 0x8A:
                     classe = simplemotion_ui.SimplemotionUI(main=self, unique=classe_active["unique"])
+                    name_axis = classe_active["name"]
+                    self.active_classes[name] = classe
+                    self.add_tab(classe, name_axis)
+                    self.profile_ui.set_save_btn(True)
+                elif classe_active["id"] == 0x8B or classe_active["id"] == 0x8C:
+                    classe = rmd_ui.RmdUI(main=self, unique=classe_active["unique"])
                     name_axis = classe_active["name"]
                     self.active_classes[name] = classe
                     self.add_tab(classe, name_axis)
