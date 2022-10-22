@@ -37,6 +37,8 @@ class RmdUI(WidgetUI,CommunicationHandler):
         self.register_callback("rmd","maxtorque",self.updateTorque,self.prefix,int)
         self.register_callback("rmd","errors",lambda v : self.showErrors(v),self.prefix,int)
         self.register_callback("rmd","state",lambda v : self.stateCb(v),self.prefix,int)
+        self.register_callback("odrv","voltage",self.voltageCb,self.prefix,int)
+
 
         self.init_ui()
         
@@ -62,6 +64,13 @@ class RmdUI(WidgetUI,CommunicationHandler):
 
     def updateTorque(self,torque):
         self.doubleSpinBox_torque.setValue(torque/100)
+    
+    def voltageCb(self,v):
+        if not self.connected:
+            self.label_voltage.setText("Not connected")
+            return
+        self.label_voltage.setText("{}V".format(v/10))
+
 
     def showErrors(self,codes):
         if not self.connected:
