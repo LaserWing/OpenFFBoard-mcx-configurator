@@ -32,7 +32,7 @@ class RmdUI(WidgetUI,CommunicationHandler):
         self.prefix = unique
         self.connected = False
 
-        self.register_callback("rmd","canid",self.spinBox_id.setValue,self.prefix,int)
+        #self.register_callback("rmd","canid",self.spinBox_id.setValue,self.prefix,int)
         self.register_callback("rmd","connected",self.connectedCb,self.prefix,int)
         self.register_callback("rmd","maxtorque",self.updateTorque,self.prefix,int)
         self.register_callback("rmd","errors",lambda v : self.showErrors(v),self.prefix,int)
@@ -52,7 +52,7 @@ class RmdUI(WidgetUI,CommunicationHandler):
         self.timer.stop()
 
     def init_ui(self):
-        commands = ["canid","canspd","maxtorque"]
+        commands = ["canspd","maxtorque"]
         self.send_commands("rmd",commands,self.prefix)
 
        
@@ -107,7 +107,7 @@ class RmdUI(WidgetUI,CommunicationHandler):
         canId = str(self.spinBox_id.value())
         torqueScaler = str(int(self.doubleSpinBox_torque.value() * 100))
         #self.send_value("rmd","canspd",spdPreset,instance=self.prefix)
-        self.send_value("rmd","canid",canId,instance=self.prefix)
+        #self.send_value("rmd","canid",canId,instance=self.prefix)
         self.send_value("rmd","maxtorque",torqueScaler,instance=self.prefix)
 
 
