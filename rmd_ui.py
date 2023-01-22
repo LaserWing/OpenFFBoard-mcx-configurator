@@ -33,15 +33,16 @@ class RmdUI(WidgetUI,CommunicationHandler):
         self.register_callback("rmd","maxtorque",self.updateTorque,self.prefix,int)
         self.register_callback("rmd","errors",lambda v : self.showErrors(v),self.prefix,int)
         self.register_callback("rmd","state",lambda v : self.stateCb(v),self.prefix,int)
-        self.register_callback("odrv","voltage",self.voltageCb,self.prefix,int)
-
+        self.register_callback("rmd","epos",self.encPosCb,self.prefix,float)
+        self.register_callback("rmd","voltage",self.voltageCb,self.prefix,int)
+        self.register_callback("rmd","apos",self.angPosCb,self.prefix,int)
 
         self.init_ui()
         
     # Tab is currently shown
     def showEvent(self,event):
         self.init_ui()
-        self.timer.start(500)
+        self.timer.start(50)
 
     # Tab is hidden
     def hideEvent(self,event):
@@ -66,6 +67,17 @@ class RmdUI(WidgetUI,CommunicationHandler):
             self.label_voltage.setText("Not connected")
             return
         self.label_voltage.setText("{}V".format(v/10))
+
+    def angPosCb(self,v):
+        lastAng = v
+        self.angPosLabel.setText("{:.2f}".format(lastAng))
+        self.angPosSlider.setValue(lastAng)
+
+    def encPosCb(self,v):
+        lastPos = v
+        # print(lastPos)
+        self.encPosLabel.setText("{:.8f}".format(lastPos))
+        self.encPosSlider.setValue(lastPos)
 
 
     def showErrors(self,codes):
@@ -96,7 +108,7 @@ class RmdUI(WidgetUI,CommunicationHandler):
 
 
     def updateTimer(self):
-        self.send_commands("rmd",["connected","error","state"],self.prefix)
+        self.send_commands("rmd",["connected","voltage","error","state","apos","epos"],self.prefix)
         
     def apply(self):
         #spdPreset = str(self.comboBox_baud.currentIndex()+3) # 3 is lowest preset!
