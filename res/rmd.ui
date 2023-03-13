@@ -241,7 +241,7 @@ QSlider::handle:horizontal {
       <item row="3" column="1" colspan="2">
        <widget class="QLabel" name="encPosLabel_units">
         <property name="text">
-         <string>(enc pos)</string>
+         <string>N.m (torque)</string>
         </property>
        </widget>
       </item>

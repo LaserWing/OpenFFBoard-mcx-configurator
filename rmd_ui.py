@@ -33,22 +33,26 @@ class RmdUI(WidgetUI,CommunicationHandler):
         self.register_callback("rmd","maxtorque",self.updateTorque,self.prefix,int)
         self.register_callback("rmd","errors",lambda v : self.showErrors(v),self.prefix,int)
         self.register_callback("rmd","state",lambda v : self.stateCb(v),self.prefix,int)
-        self.register_callback("rmd","epos",self.encPosCb,self.prefix,float)
         self.register_callback("rmd","voltage",self.voltageCb,self.prefix,int)
         self.register_callback("rmd","apos",self.angPosCb,self.prefix,int)
+        self.register_callback("rmd","torque",self.torqueCb,self.prefix,int)
 
         self.init_ui()
         
     # Tab is currently shown
     def showEvent(self,event):
         self.init_ui()
-        self.timer.start(50)
+        self.timer.start(25)
 
     # Tab is hidden
     def hideEvent(self,event):
         self.timer.stop()
 
     def init_ui(self):
+
+        self.angPosSlider.setRange(-3000, 3000)
+        self.encPosSlider.setRange(-75, 75)
+
         commands = ["canid","canspd","maxtorque"]
         self.send_commands("rmd",commands,self.prefix)
 
@@ -69,16 +73,13 @@ class RmdUI(WidgetUI,CommunicationHandler):
         self.label_voltage.setText("{}V".format(v/10))
 
     def angPosCb(self,v):
-        lastAng = v
-        self.angPosLabel.setText("{:.2f}".format(lastAng))
-        self.angPosSlider.setValue(lastAng)
+        self.angPosLabel.setText("{:.2f}".format(v/100))
+        self.angPosSlider.setValue(v)
 
-    def encPosCb(self,v):
-        lastPos = v
-        # print(lastPos)
-        self.encPosLabel.setText("{:.8f}".format(lastPos))
-        self.encPosSlider.setValue(lastPos)
-
+    def torqueCb(self,v):
+        torqueConstant = 2.6 #N.m/A
+        self.encPosLabel.setText("{:.2f}".format(v/100*torqueConstant))
+        self.encPosSlider.setValue(v)
 
     def showErrors(self,codes):
         if not self.connected:
@@ -108,7 +109,7 @@ class RmdUI(WidgetUI,CommunicationHandler):
 
 
     def updateTimer(self):
-        self.send_commands("rmd",["connected","voltage","error","state","apos","epos"],self.prefix)
+        self.send_commands("rmd",["connected","voltage","error","state","apos","epos","torque"],self.prefix)
         
     def apply(self):
         #spdPreset = str(self.comboBox_baud.currentIndex()+3) # 3 is lowest preset!
