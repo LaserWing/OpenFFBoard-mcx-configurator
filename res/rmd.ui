@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>690</width>
-    <height>586</height>
+    <height>636</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" rowspan="2">
+   <item row="1" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
       <number>0</number>
@@ -26,8 +26,8 @@
       <widget class="QGroupBox" name="meterBox">
        <property name="geometry">
         <rect>
-         <x>191</x>
-         <y>123</y>
+         <x>200</x>
+         <y>125</y>
          <width>281</width>
          <height>136</height>
         </rect>
@@ -45,7 +45,7 @@
         </size>
        </property>
        <property name="title">
-        <string>Position</string>
+        <string>Position/Torque</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="1" column="0" colspan="3">
@@ -133,7 +133,7 @@ QSlider::handle:horizontal {
         <item row="3" column="1" colspan="2">
          <widget class="QLabel" name="curTorqueLabel_units">
           <property name="text">
-           <string>N.m (torque)</string>
+           <string>N·m (torque)</string>
           </property>
          </widget>
         </item>
@@ -193,8 +193,8 @@ QSlider::handle:horizontal {
       <widget class="QGroupBox" name="infoBox">
        <property name="geometry">
         <rect>
-         <x>191</x>
-         <y>4</y>
+         <x>200</x>
+         <y>5</y>
          <width>281</width>
          <height>116</height>
         </rect>
@@ -277,9 +277,9 @@ QSlider::handle:horizontal {
       <widget class="QGroupBox" name="commandBox">
        <property name="geometry">
         <rect>
-         <x>9</x>
-         <y>4</y>
-         <width>176</width>
+         <x>10</x>
+         <y>5</y>
+         <width>181</width>
          <height>256</height>
         </rect>
        </property>
@@ -325,7 +325,7 @@ QSlider::handle:horizontal {
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>200</y>
+          <y>180</y>
           <width>161</width>
           <height>41</height>
          </rect>
@@ -354,7 +354,7 @@ QSlider::handle:horizontal {
        <widget class="QPushButton" name="zeroButton">
         <property name="geometry">
          <rect>
-          <x>90</x>
+          <x>94</x>
           <y>130</y>
           <width>75</width>
           <height>41</height>
@@ -363,22 +363,83 @@ QSlider::handle:horizontal {
         <property name="font">
          <font/>
         </property>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
         <property name="text">
          <string>Zero</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="homeButton_2">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>95</y>
+          <width>161</width>
+          <height>26</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font/>
+        </property>
+        <property name="text">
+         <string>Initialize</string>
+        </property>
+       </widget>
+       <widget class="QToolButton" name="advancedButton">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>235</y>
+          <width>151</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {
+	background-color: transparent;
+}</string>
+        </property>
+        <property name="text">
+         <string>Advanced</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>8</width>
+          <height>8</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::InstantPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::RightArrow</enum>
         </property>
        </widget>
       </widget>
       <widget class="QGroupBox" name="debugBox">
        <property name="geometry">
         <rect>
-         <x>190</x>
-         <y>265</y>
+         <x>200</x>
+         <y>270</y>
          <width>281</width>
-         <height>216</height>
+         <height>226</height>
         </rect>
        </property>
        <property name="title">
-        <string/>
+        <string>Debug</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="1" column="0">
@@ -555,6 +616,134 @@ QSlider::handle:horizontal {
         </item>
        </layout>
       </widget>
+      <widget class="QGroupBox" name="motionBox">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>270</y>
+         <width>181</width>
+         <height>226</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Motion</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <item row="0" column="0">
+         <widget class="QLabel" name="canSpeedLabel_8">
+          <property name="text">
+           <string>Position, ° θ :</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="kp_val_2">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="canSpeedLabel_9">
+          <property name="text">
+           <string>Velocity, °/s ω :</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="kp_val_3">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="canSpeedLabel_10">
+          <property name="text">
+           <string>Pos. gain, Kₚ :</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="kp_val_4">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="canSpeedLabel_11">
+          <property name="text">
+           <string>Vel gain, vₚ :</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSpinBox" name="kp_val_5">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="canSpeedLabel_12">
+          <property name="text">
+           <string>Torque, N·m τ :</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="kp_val_6">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0" colspan="2">
+         <widget class="QPushButton" name="homeButton_3">
+          <property name="font">
+           <font/>
+          </property>
+          <property name="text">
+           <string>Execute</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
      <widget class="QWidget" name="settings_tab">
       <attribute name="title">
@@ -623,7 +812,7 @@ QSlider::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>250</y>
+         <y>265</y>
          <width>241</width>
          <height>91</height>
         </rect>
@@ -664,16 +853,16 @@ QSlider::handle:horizontal {
       <widget class="QGroupBox" name="planParamBox">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>355</y>
-         <width>241</width>
-         <height>181</height>
+         <x>270</x>
+         <y>240</y>
+         <width>251</width>
+         <height>168</height>
         </rect>
        </property>
        <property name="title">
         <string>Plan Parameters</string>
        </property>
-       <layout class="QFormLayout" name="formLayout_3">
+       <layout class="QGridLayout" name="gridLayout_6">
         <item row="0" column="0">
          <widget class="QLabel" name="maxPosAccelLabel">
           <property name="text">
@@ -685,6 +874,19 @@ QSlider::handle:horizontal {
          <widget class="QSpinBox" name="maxPosAccel">
           <property name="maximum">
            <number>60000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QSlider" name="kp_slider_2">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="tickPosition">
+           <enum>QSlider::NoTicks</enum>
           </property>
          </widget>
         </item>
@@ -702,6 +904,19 @@ QSlider::handle:horizontal {
           </property>
          </widget>
         </item>
+        <item row="1" column="2">
+         <widget class="QSlider" name="kp_slider_3">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="tickPosition">
+           <enum>QSlider::NoTicks</enum>
+          </property>
+         </widget>
+        </item>
         <item row="2" column="0">
          <widget class="QLabel" name="maxVelAccelLabel">
           <property name="text">
@@ -713,6 +928,19 @@ QSlider::handle:horizontal {
          <widget class="QSpinBox" name="maxVelAccel">
           <property name="maximum">
            <number>60000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QSlider" name="kp_slider_4">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="tickPosition">
+           <enum>QSlider::NoTicks</enum>
           </property>
          </widget>
         </item>
@@ -730,7 +958,20 @@ QSlider::handle:horizontal {
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
+        <item row="3" column="2">
+         <widget class="QSlider" name="kp_slider_5">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="tickPosition">
+           <enum>QSlider::NoTicks</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" colspan="2">
          <widget class="QPushButton" name="planAccelpushButton">
           <property name="text">
            <string>Submit</string>
@@ -739,19 +980,33 @@ QSlider::handle:horizontal {
         </item>
        </layout>
       </widget>
-      <widget class="QGroupBox" name="groupBox">
+      <widget class="QGroupBox" name="canRmdBox">
        <property name="geometry">
         <rect>
          <x>10</x>
          <y>140</y>
          <width>241</width>
-         <height>106</height>
+         <height>121</height>
         </rect>
        </property>
        <property name="title">
         <string>CAN/RS485 - RMD</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_5">
+        <item row="1" column="0">
+         <widget class="QComboBox" name="rmdBaudrateComboBox">
+          <item>
+           <property name="text">
+            <string>RS485: 115200 bps; CAN: 500k </string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RS485: 500k; CAN: 1M</string>
+           </property>
+          </item>
+         </widget>
+        </item>
         <item row="1" column="1">
          <widget class="QPushButton" name="setRmdBaudrateButton">
           <property name="text">
@@ -776,33 +1031,226 @@ QSlider::handle:horizontal {
           </property>
          </widget>
         </item>
+        <item row="2" column="0" colspan="2">
+         <widget class="QCheckBox" name="checkBox">
+          <property name="text">
+           <string> Enable RMD CAN commands</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QGroupBox" name="pidBox">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>10</y>
+         <width>251</width>
+         <height>222</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>PID Tuning</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_8">
+        <item row="0" column="0">
+         <widget class="QLabel" name="canSpeedLabel_2">
+          <property name="text">
+           <string>Kₚ :</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="kp_val">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2" colspan="2">
+         <widget class="QSlider" name="kp_slider">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="tickPosition">
+           <enum>QSlider::NoTicks</enum>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="0">
-         <widget class="QComboBox" name="rmdBaudrateComboBox">
-          <item>
-           <property name="text">
-            <string>RS485: 115200 bps; CAN: 500k </string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RS485: 500k; CAN: 1M</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RS485: 1M</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RS485: 1.5M</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RS485: 2M</string>
-           </property>
-          </item>
+         <widget class="QLabel" name="canSpeedLabel_3">
+          <property name="text">
+           <string>Kᵢ :</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="ki_val">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2" colspan="2">
+         <widget class="QSlider" name="ki_slider">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="canSpeedLabel_4">
+          <property name="text">
+           <string>Vₚ :</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="vp_val">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2" colspan="2">
+         <widget class="QSlider" name="vp_slider">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="canSpeedLabel_5">
+          <property name="text">
+           <string>Vᵢ :</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSpinBox" name="vi_val">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2" colspan="2">
+         <widget class="QSlider" name="vi_slider">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="canSpeedLabel_6">
+          <property name="text">
+           <string>Iₚ :</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="ip_val">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2" colspan="2">
+         <widget class="QSlider" name="ip_slider">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="canSpeedLabel_7">
+          <property name="text">
+           <string>Iᵢ :</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QSpinBox" name="ii_val">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2" colspan="2">
+         <widget class="QSlider" name="ii_slider">
+          <property name="maximum">
+           <number>255</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0" colspan="3">
+         <widget class="QPushButton" name="planAccelpushButton_2">
+          <property name="text">
+           <string>Submit</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="3">
+         <widget class="QPushButton" name="planAccelpushButton_3">
+          <property name="text">
+           <string>Autotune</string>
+          </property>
          </widget>
         </item>
        </layout>

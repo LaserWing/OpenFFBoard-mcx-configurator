@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QDialog
 from PyQt6.QtWidgets import QWidget
 from PyQt6.QtWidgets import QMessageBox, QVBoxLayout, QCheckBox, QButtonGroup
 from PyQt6.QtWidgets import QStyleFactory
+import PyQt6.QtCore as pyqt6
 from PyQt6 import uic
 from helper import res_path, classlistToIds
 from PyQt6.QtCore import QTimer
@@ -45,6 +46,22 @@ class RmdUI(WidgetUI, CommunicationHandler):
         style = QStyleFactory.create('Windows')
         self.singleturn_dial.setStyle(style)
 
+        self.kp_slider.valueChanged.connect(self.kp_val.setValue)
+        self.ki_slider.valueChanged.connect(self.ki_val.setValue)
+        self.vp_slider.valueChanged.connect(self.vp_val.setValue)
+        self.vi_slider.valueChanged.connect(self.vi_val.setValue)
+        self.ip_slider.valueChanged.connect(self.ip_val.setValue)
+        self.ii_slider.valueChanged.connect(self.ii_val.setValue)
+
+        self.kp_val.valueChanged.connect(self.kp_slider.setValue)
+        self.ki_val.valueChanged.connect(self.ki_slider.setValue)
+        self.vp_val.valueChanged.connect(self.vp_slider.setValue)
+        self.vi_val.valueChanged.connect(self.vi_slider.setValue)
+        self.ip_val.valueChanged.connect(self.ip_slider.setValue)
+        self.ii_val.valueChanged.connect(self.ii_slider.setValue)
+
+        self.advancedButton.clicked.connect( self.toggleAdvanced )
+
         self.pos = 0.0
         self.posOffset = 0.0
 
@@ -78,12 +95,18 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.timer.stop()
 
     def init_ui(self):
-
         self.angPosSlider.setRange(-3000, 3000)
         self.curTorqueSlider.setRange(-75, 75)
+        self.debugBox.setHidden(True)
+        self.motionBox.setHidden(True)
 
         commands = ["canid", "canspd", "maxtorque"]
         self.send_commands("rmd", commands, self.prefix)
+
+    def toggleAdvanced(self, checked):
+        self.advancedButton.setArrowType( pyqt6.Qt.ArrowType.DownArrow if checked else pyqt6.Qt.ArrowType.RightArrow)
+        self.debugBox.setHidden(not checked)
+        self.motionBox.setHidden(not checked)
 
     def toggleRunning(self):
         self.isRunning = not self.isRunning
@@ -197,7 +220,8 @@ class RmdUI(WidgetUI, CommunicationHandler):
         pass
 
     def setRmdBaudrate(self):
-        self.send_value("rmd","baudrate", self.rmdBaudrateComboBox.currentIndex(), instance=self.prefix)
+        if self.rmdCanCheckBox.checked:
+            self.send_value("rmd","baudrate", self.rmdBaudrateComboBox.currentIndex(), instance=self.prefix)
 
     def applyCanSettings(self):
         # spdPreset = str(self.comboBox_baud.currentIndex()+3) # 3 is lowest preset!
