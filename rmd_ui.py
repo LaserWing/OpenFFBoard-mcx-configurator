@@ -8,6 +8,7 @@ from PyQt6 import uic
 from helper import res_path, classlistToIds
 from PyQt6.QtCore import QTimer
 import main
+import struct
 from base_ui import WidgetUI
 from base_ui import CommunicationHandler
 import portconf_ui
@@ -62,6 +63,9 @@ class RmdUI(WidgetUI, CommunicationHandler):
 
         self.advancedButton.clicked.connect( self.toggleAdvanced )
 
+        self.readPidButton.clicked.connect( self.readPid )
+        self.submitPidButton.clicked.connect( self.submitPid )
+
         self.pos = 0.0
         self.posOffset = 0.0
 
@@ -82,6 +86,7 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.register_callback("rmd", "single_ang", self.singleAngCb, self.prefix, int)
         self.register_callback("rmd", "multi_ang", self.multiAngCb, self.prefix, int)
         self.register_callback("rmd", "torque", self.torqueCb, self.prefix, int)
+        self.register_callback("rmd", "pid", self.pidCb, self.prefix, int)
 
         self.init_ui()
 
@@ -97,8 +102,8 @@ class RmdUI(WidgetUI, CommunicationHandler):
     def init_ui(self):
         self.angPosSlider.setRange(-3000, 3000)
         self.curTorqueSlider.setRange(-75, 75)
-        self.debugBox.setHidden(True)
-        self.motionBox.setHidden(True)
+        self.debugBox.setHidden(not self.advancedButton.isChecked())
+        self.motionBox.setHidden(not self.advancedButton.isChecked())
 
         commands = ["canid", "canspd", "maxtorque"]
         self.send_commands("rmd", commands, self.prefix)
@@ -206,6 +211,23 @@ class RmdUI(WidgetUI, CommunicationHandler):
     def writePlanAccel(self):
         pass
 
+    def readPid(self):
+        self.send_command("rmd", "pid", self.prefix)
+
+    def submitPid(self):
+        pass
+
+    def pidCb(self, v):
+        # Unpack the PID parameters from the uint64
+        ip, ii, vp, vi, kp, ki, _, _ = struct.unpack('8B', v.to_bytes(8, 'little'))
+        self.kp_val.setValue(kp)
+        self.ki_val.setValue(ki)
+        self.vp_val.setValue(vp)
+        self.vi_val.setValue(vi)
+        self.ip_val.setValue(ip)
+        self.ii_val.setValue(ii)
+        pass
+
     def setOffset(self):
         self.send_value("rmd", "multi_offset", 0, instance=self.prefix)
 
@@ -220,7 +242,7 @@ class RmdUI(WidgetUI, CommunicationHandler):
         pass
 
     def setRmdBaudrate(self):
-        if self.rmdCanCheckBox.checked:
+        if self.rmdCanCheckBox.isChecked():
             self.send_value("rmd","baudrate", self.rmdBaudrateComboBox.currentIndex(), instance=self.prefix)
 
     def applyCanSettings(self):
