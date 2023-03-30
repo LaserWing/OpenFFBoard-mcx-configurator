@@ -57,7 +57,7 @@
            </sizepolicy>
           </property>
           <property name="toolTip">
-           <string/>
+           <string>Current position in degrees from the stored center</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QSlider::groove:horizontal {
@@ -95,7 +95,7 @@ QSlider::handle:horizontal {
         <item row="6" column="0" colspan="3">
          <widget class="QSlider" name="curTorqueSlider">
           <property name="toolTip">
-           <string/>
+           <string>Current torque produced by the RMD motor</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QSlider::groove:horizontal {
@@ -211,6 +211,9 @@ QSlider::handle:horizontal {
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="1" column="0">
          <widget class="QLabel" name="axisStateLabel">
+          <property name="toolTip">
+           <string>Axis state is one of: IDLE, WAIT_READY, START_RUNNIG, or RUNNING</string>
+          </property>
           <property name="text">
            <string>Axis state:</string>
           </property>
@@ -218,6 +221,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="voltageLabel">
+          <property name="toolTip">
+           <string>The current RMD motor voltage</string>
+          </property>
           <property name="text">
            <string>Voltage:</string>
           </property>
@@ -225,6 +231,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="1" column="1">
          <widget class="QLabel" name="label_state">
+          <property name="toolTip">
+           <string>Axis state is one of: IDLE, WAIT_READY, START_RUNNIG, or RUNNING</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -235,6 +244,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="0" column="1">
          <widget class="QLabel" name="label_voltage">
+          <property name="toolTip">
+           <string>The current RMD motor voltage</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -245,6 +257,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="errorLabel">
+          <property name="toolTip">
+           <string>Any errors returned by the RMD motor</string>
+          </property>
           <property name="text">
            <string>Errors:</string>
           </property>
@@ -255,6 +270,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="2" column="1">
          <widget class="QLabel" name="label_errornames">
+          <property name="toolTip">
+           <string>Any errors returned by the RMD motor</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -288,7 +306,7 @@ QSlider::handle:horizontal {
        </property>
        <widget class="QPushButton" name="homeButton">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="geometry">
          <rect>
@@ -300,6 +318,9 @@ QSlider::handle:horizontal {
         </property>
         <property name="font">
          <font/>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Re-center the stick according to the stored center position&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Home</string>
@@ -320,13 +341,16 @@ QSlider::handle:horizontal {
           <bold>false</bold>
          </font>
         </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Engage/disengage the closed loop control&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="text">
          <string>RUN</string>
         </property>
        </widget>
        <widget class="QPushButton" name="brakeButton">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="geometry">
          <rect>
@@ -340,6 +364,9 @@ QSlider::handle:horizontal {
          <font>
           <pointsize>12</pointsize>
          </font>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Engage/disengage the built-in brake function of the RMD motor&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Brake</string>
@@ -372,6 +399,9 @@ QSlider::handle:horizontal {
         <property name="font">
          <font/>
         </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set a new center position at the current stick position&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="layoutDirection">
          <enum>Qt::RightToLeft</enum>
         </property>
@@ -379,7 +409,7 @@ QSlider::handle:horizontal {
          <string>Zero</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="homeButton_2">
+       <widget class="QPushButton" name="initializeButton">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -393,6 +423,9 @@ QSlider::handle:horizontal {
         </property>
         <property name="font">
          <font/>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically calibrate the endstop positions and find the stick center, set offsets&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Initialize</string>
@@ -473,6 +506,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="3" column="1">
          <widget class="QLabel" name="singlePosRaw_val">
+          <property name="toolTip">
+           <string>The single-turn raw position (encoder counts)</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -483,6 +519,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="0" column="1">
          <widget class="QLabel" name="multiOffset_val">
+          <property name="toolTip">
+           <string>The multi-turn offset position (encoder counts)</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -503,6 +542,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="3" column="2">
          <widget class="QDial" name="singleturn_dial">
+          <property name="toolTip">
+           <string>Single-turn raw position (encoder counts) visualized as a dial</string>
+          </property>
           <property name="maximum">
            <number>16383</number>
           </property>
@@ -531,6 +573,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="1" column="2">
          <widget class="QPushButton" name="resetMultiturnButton">
+          <property name="toolTip">
+           <string>Reset the multi-turn raw value and also update the internal RMD motor offset</string>
+          </property>
           <property name="text">
            <string>Reset</string>
           </property>
@@ -538,6 +583,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="4" column="1">
          <widget class="QLabel" name="turns_val">
+          <property name="toolTip">
+           <string>The multi-turn position converted to units of turns for FFBoard</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -558,6 +606,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="2" column="1">
          <widget class="QLabel" name="singleOffset_val">
+          <property name="toolTip">
+           <string>The single-turn offset position (encoder counts)</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -568,6 +619,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="1" column="1">
          <widget class="QLabel" name="multiPosRaw_val">
+          <property name="toolTip">
+           <string>The multi-turn raw position (encoder counts)</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -578,6 +632,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="0" column="2">
          <widget class="QPushButton" name="setOffsetButton">
+          <property name="toolTip">
+           <string>Set the current multi-turn value as the internal RMD motor offset</string>
+          </property>
           <property name="text">
            <string>Set offset</string>
           </property>
@@ -605,6 +662,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="5" column="1">
          <widget class="QLabel" name="turnsAndOffset_val">
+          <property name="toolTip">
+           <string>The multi-turn position relative to the stored turn offset in FFBoard</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -615,6 +675,9 @@ QSlider::handle:horizontal {
         </item>
         <item row="5" column="2">
          <widget class="QLabel" name="turnsOffset_val">
+          <property name="toolTip">
+           <string>The stored turn offset in FFBoard</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -651,16 +714,6 @@ QSlider::handle:horizontal {
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QSpinBox" name="kp_val_2">
-          <property name="maximum">
-           <number>255</number>
-          </property>
-          <property name="singleStep">
-           <number>1</number>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="0">
          <widget class="QLabel" name="canSpeedLabel_9">
           <property name="text">
@@ -668,16 +721,6 @@ QSlider::handle:horizontal {
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QSpinBox" name="kp_val_3">
-          <property name="maximum">
-           <number>255</number>
-          </property>
-          <property name="singleStep">
-           <number>1</number>
           </property>
          </widget>
         </item>
@@ -691,16 +734,6 @@ QSlider::handle:horizontal {
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
-         <widget class="QSpinBox" name="kp_val_4">
-          <property name="maximum">
-           <number>255</number>
-          </property>
-          <property name="singleStep">
-           <number>1</number>
-          </property>
-         </widget>
-        </item>
         <item row="3" column="0">
          <widget class="QLabel" name="canSpeedLabel_11">
           <property name="text">
@@ -708,16 +741,6 @@ QSlider::handle:horizontal {
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QSpinBox" name="kp_val_5">
-          <property name="maximum">
-           <number>255</number>
-          </property>
-          <property name="singleStep">
-           <number>1</number>
           </property>
          </widget>
         </item>
@@ -731,23 +754,93 @@ QSlider::handle:horizontal {
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
-         <widget class="QSpinBox" name="kp_val_6">
-          <property name="maximum">
-           <number>255</number>
-          </property>
-          <property name="singleStep">
-           <number>1</number>
-          </property>
-         </widget>
-        </item>
         <item row="5" column="0" colspan="2">
-         <widget class="QPushButton" name="homeButton_3">
+         <widget class="QPushButton" name="executeMotionButton">
           <property name="font">
            <font/>
           </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Send a smooth motion command to the RMD motor using the parameters set above&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
           <property name="text">
            <string>Execute</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QDoubleSpinBox" name="motion_ff_torque">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Feed-forward torque value&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="minimum">
+           <double>-1.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>1.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.010000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QDoubleSpinBox" name="desired_pos_val">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Desired position (in degrees)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="minimum">
+           <double>-25.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>25.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.010000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QDoubleSpinBox" name="desired_vel_val">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Desired velocity (in degrees/second)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="minimum">
+           <double>-50.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>50.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.010000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QDoubleSpinBox" name="motion_vel_gain">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Gain constant for the velocity controller&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="maximum">
+           <double>5.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.100000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QDoubleSpinBox" name="motion_pos_gain">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Gain constant for the position controller&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="maximum">
+           <double>500.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.100000000000000</double>
           </property>
          </widget>
         </item>
@@ -773,49 +866,108 @@ QSlider::handle:horizontal {
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="toolTipDuration">
+        <number>-1</number>
+       </property>
        <property name="title">
         <string>CAN/RS485 - FFBoard</string>
        </property>
-       <layout class="QFormLayout" name="formLayout">
-        <item row="0" column="0">
-         <widget class="QLabel" name="canSpeedLabel">
-          <property name="text">
-           <string>CAN speed</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QPushButton" name="pushButton_cansettings">
-          <property name="text">
-           <string>Change CAN settings</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="axisCanIdLabel">
-          <property name="text">
-           <string>Axis CAN ID</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QSpinBox" name="spinBox_id">
-          <property name="maximum">
-           <number>63</number>
-          </property>
-          <property name="singleStep">
-           <number>1</number>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QPushButton" name="canSettings_apply">
-          <property name="text">
-           <string>Submit</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QLabel" name="canSpeedLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>27</y>
+          <width>60</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>Changes the CAN speed</string>
+        </property>
+        <property name="toolTipDuration">
+         <number>3000</number>
+        </property>
+        <property name="text">
+         <string>CAN speed</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_cansettings">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>27</y>
+          <width>121</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Change CAN settings</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="axisCanIdLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>58</y>
+          <width>64</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Axis CAN ID</string>
+        </property>
+       </widget>
+       <widget class="QSpinBox" name="spinBox_id">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>58</y>
+          <width>34</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="maximum">
+         <number>63</number>
+        </property>
+        <property name="singleStep">
+         <number>1</number>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="canSettings_apply">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>86</y>
+          <width>75</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Submit</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="canSpeedLabel_2">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>-5</y>
+          <width>131</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>Changes the CAN speed and ID setting used by the FFBoard to communicate with the motor.</string>
+        </property>
+        <property name="toolTipDuration">
+         <number>3000</number>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </widget>
       <widget class="QGroupBox" name="safetyBox">
        <property name="geometry">
@@ -829,35 +981,73 @@ QSlider::handle:horizontal {
        <property name="title">
         <string>Safety</string>
        </property>
-       <layout class="QFormLayout" name="formLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="maxTorqueLabel">
-          <property name="text">
-           <string>Max torque:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QDoubleSpinBox" name="maxTorqueSpinBox">
-          <property name="suffix">
-           <string> ( x10 A )</string>
-          </property>
-          <property name="maximum">
-           <double>40.000000000000000</double>
-          </property>
-          <property name="singleStep">
-           <double>0.010000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QPushButton" name="maxTorque_apply">
-          <property name="text">
-           <string>Submit</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QLabel" name="maxTorqueLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>27</y>
+          <width>64</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum possible torque sent by FFBoard.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Max torque:</string>
+        </property>
+       </widget>
+       <widget class="QDoubleSpinBox" name="maxTorqueSpinBox">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>27</y>
+          <width>96</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="suffix">
+         <string> ( x10 A )</string>
+        </property>
+        <property name="maximum">
+         <double>40.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="maxTorque_apply">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>55</y>
+          <width>75</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Submit</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="canSpeedLabel_4">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>51</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the maximum safety limits.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="toolTipDuration">
+         <number>3000</number>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </widget>
       <widget class="QGroupBox" name="planParamBox">
        <property name="geometry">
@@ -880,14 +1070,14 @@ QSlider::handle:horizontal {
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QSpinBox" name="maxPosAccel">
+         <widget class="QSpinBox" name="maxPosAccel_val">
           <property name="maximum">
            <number>60000</number>
           </property>
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QSlider" name="kp_slider_2">
+         <widget class="QSlider" name="maxPosAccel_slider">
           <property name="maximum">
            <number>255</number>
           </property>
@@ -907,14 +1097,14 @@ QSlider::handle:horizontal {
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QSpinBox" name="maxPosDecel">
+         <widget class="QSpinBox" name="maxPosDecel_val">
           <property name="maximum">
            <number>60000</number>
           </property>
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="QSlider" name="kp_slider_3">
+         <widget class="QSlider" name="maxPosDecel_slider">
           <property name="maximum">
            <number>255</number>
           </property>
@@ -934,14 +1124,14 @@ QSlider::handle:horizontal {
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QSpinBox" name="maxVelAccel">
+         <widget class="QSpinBox" name="maxVelAccel_val">
           <property name="maximum">
            <number>60000</number>
           </property>
          </widget>
         </item>
         <item row="2" column="2">
-         <widget class="QSlider" name="kp_slider_4">
+         <widget class="QSlider" name="maxVelAccel_slider">
           <property name="maximum">
            <number>255</number>
           </property>
@@ -968,7 +1158,7 @@ QSlider::handle:horizontal {
          </widget>
         </item>
         <item row="3" column="2">
-         <widget class="QSlider" name="kp_slider_5">
+         <widget class="QSlider" name="maxVelDecel_slider">
           <property name="maximum">
            <number>255</number>
           </property>
@@ -980,10 +1170,17 @@ QSlider::handle:horizontal {
           </property>
          </widget>
         </item>
-        <item row="4" column="0" colspan="2">
-         <widget class="QPushButton" name="planAccelpushButton">
+        <item row="4" column="1">
+         <widget class="QPushButton" name="submitPlanButton">
           <property name="text">
            <string>Submit</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QPushButton" name="readPlanButton">
+          <property name="text">
+           <string>Read</string>
           </property>
          </widget>
         </item>
@@ -1001,56 +1198,109 @@ QSlider::handle:horizontal {
        <property name="title">
         <string>CAN/RS485 - RMD</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout_5">
-        <item row="1" column="0">
-         <widget class="QComboBox" name="rmdBaudrateComboBox">
-          <item>
-           <property name="text">
-            <string>RS485: 115200 bps; CAN: 500k </string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>RS485: 500k; CAN: 1M</string>
-           </property>
-          </item>
-         </widget>
+       <widget class="QComboBox" name="rmdBaudrateComboBox">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>59</y>
+          <width>109</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>RS485: 115200 bps; CAN: 500k </string>
+         </property>
         </item>
-        <item row="1" column="1">
-         <widget class="QPushButton" name="setRmdBaudrateButton">
-          <property name="text">
-           <string>Set RMD Baudrate</string>
-          </property>
-         </widget>
+        <item>
+         <property name="text">
+          <string>RS485: 500k; CAN: 1M</string>
+         </property>
         </item>
-        <item row="0" column="1">
-         <widget class="QPushButton" name="setRmdCanIdButton">
-          <property name="text">
-           <string>Set RMD CAN ID</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QSpinBox" name="spinBox_id_2">
-          <property name="maximum">
-           <number>63</number>
-          </property>
-          <property name="singleStep">
-           <number>1</number>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0" colspan="2">
-         <widget class="QCheckBox" name="rmdCanCheckBox">
-          <property name="text">
-           <string> Enable RMD CAN commands</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       </widget>
+       <widget class="QPushButton" name="setRmdBaudrateButton">
+        <property name="geometry">
+         <rect>
+          <x>125</x>
+          <y>58</y>
+          <width>111</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sends the set command to change the CAN baudrate of the RMD motor.&lt;/p&gt;&lt;p&gt;THIS WILL BREAK COMMUNICATION WITH THIS CONFIGURATOR UNTIL CAN IS RENABLED IN THE MYACTUATOR ASSISTANT!!!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Set RMD Baudrate</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="setRmdCanIdButton">
+        <property name="geometry">
+         <rect>
+          <x>125</x>
+          <y>27</y>
+          <width>111</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>Sends the set command to change the CAN ID of the RMD motor. Must be 1~32.</string>
+        </property>
+        <property name="text">
+         <string>Set RMD CAN ID</string>
+        </property>
+       </widget>
+       <widget class="QSpinBox" name="spinBox_id_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>28</y>
+          <width>111</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="maximum">
+         <number>32</number>
+        </property>
+        <property name="singleStep">
+         <number>1</number>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="rmdCanCheckBox">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>89</y>
+          <width>180</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string> Enable RMD CAN commands</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="canSpeedLabel_3">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>-5</y>
+          <width>111</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sends commands to change the CAN baudrate and ID used by the RMD motor. WARNING: These should not normally be used!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="toolTipDuration">
+         <number>3000</number>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </widget>
       <widget class="QGroupBox" name="pidBox">
        <property name="geometry">
@@ -1381,6 +1631,9 @@ QSlider::handle:horizontal {
         </property>
        </widget>
        <widget class="QPushButton" name="autotunePidButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>169</x>

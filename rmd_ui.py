@@ -8,7 +8,7 @@ from PyQt6 import uic
 from helper import res_path, classlistToIds
 from PyQt6.QtCore import QTimer
 import main
-import struct
+import struct, math, time
 from base_ui import WidgetUI
 from base_ui import CommunicationHandler
 import portconf_ui
@@ -25,6 +25,8 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.main = main  # type: main.MainUi
 
         self.isRunning = False
+        self.stopMotorTimer = QTimer(self, singleShot=True)
+        self.stopMotorTimer.timeout.connect(self.stopMotor)
 
         self.timer = QTimer(self)
         self.canOptions = portconf_ui.CanOptionsDialog(0, "CAN", main)
@@ -32,13 +34,13 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.maxTorque_apply.clicked.connect(self.applyMaxTorque)
         self.pushButton_cansettings.clicked.connect(self.canOptions.exec)
         self.homeButton.clicked.connect(self.home)
-        self.planAccelpushButton.clicked.connect(self.writePlanAccel)
+        self.brakeButton.clicked.connect(self.brake)
+        self.submitPlanButton.clicked.connect(self.writePlanAccel)
         self.setOffsetButton.clicked.connect(self.setOffset)
         self.setRmdCanIdButton.clicked.connect(self.setRmdCanId)
         self.setRmdBaudrateButton.clicked.connect(self.setRmdBaudrate)
         self.resetMultiturnButton.clicked.connect(self.resetMultiturnValue)
         self.stopButton.clicked.connect(self.toggleRunning)
-        # self.pushButton_anticogging.clicked.connect(self.antigoggingBtn) #TODO test first
         self.timer.timeout.connect(self.updateTimer)
         self.prefix = unique
         self.connected = False
@@ -61,10 +63,12 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.ip_val.valueChanged.connect(self.ip_slider.setValue)
         self.ii_val.valueChanged.connect(self.ii_slider.setValue)
 
-        self.advancedButton.clicked.connect( self.toggleAdvanced )
+        self.advancedButton.clicked.connect(self.toggleAdvanced)
 
-        self.readPidButton.clicked.connect( self.readPid )
-        self.submitPidButton.clicked.connect( self.submitPid )
+        self.readPidButton.clicked.connect(self.readPid)
+        self.submitPidButton.clicked.connect(self.submitPid)
+
+        self.executeMotionButton.clicked.connect(self.executeMotion)
 
         self.pos = 0.0
         self.posOffset = 0.0
@@ -75,7 +79,7 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.register_callback("rmd", "errors", lambda v: self.showErrors(v), self.prefix, int)
         self.register_callback("rmd", "state", lambda v: self.stateCb(v), self.prefix, int)
         self.register_callback("rmd", "voltage", self.voltageCb, self.prefix, int)
-        self.register_callback("rmd", "apos", self.angPosCb, self.prefix, int)
+        self.register_callback("rmd", "apos", self.absPosCb, self.prefix, int)
         self.register_callback("rmd", "pos_turns", self.posTurnsCb, self.prefix, int)
         self.register_callback("rmd", "pos_turns_offset", self.posTurnsOffsetCb, self.prefix, int)
         self.register_callback("rmd", "single_pos", self.singlePosCb, self.prefix, int)
@@ -87,6 +91,7 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.register_callback("rmd", "multi_ang", self.multiAngCb, self.prefix, int)
         self.register_callback("rmd", "torque", self.torqueCb, self.prefix, int)
         self.register_callback("rmd", "pid", self.pidCb, self.prefix, int)
+        self.register_callback("rmd", "motion", self.motionCb, self.prefix, int)
 
         self.init_ui()
 
@@ -109,18 +114,23 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.send_commands("rmd", commands, self.prefix)
 
     def toggleAdvanced(self, checked):
-        self.advancedButton.setArrowType( pyqt6.Qt.ArrowType.DownArrow if checked else pyqt6.Qt.ArrowType.RightArrow)
+        self.advancedButton.setArrowType(pyqt6.Qt.ArrowType.DownArrow if checked else pyqt6.Qt.ArrowType.RightArrow)
         self.debugBox.setHidden(not checked)
         self.motionBox.setHidden(not checked)
 
     def toggleRunning(self):
         self.isRunning = not self.isRunning
-        if(self.isRunning):
+        if (self.isRunning):
             self.stopButton.setText("STOP")
             self.send_value("rmd", "start", 0, instance=self.prefix)
         else:
             self.stopButton.setText("RUN")
             self.send_value("rmd", "stop", 0, instance=self.prefix)
+
+    def stopMotor(self):
+        self.send_value("rmd", "stop", 0, instance=self.prefix)
+        self.isRunning = False
+        self.stopButton.setText("RUN")
 
     def connectedCb(self, v):
         self.connected = False if v == 0 else True
@@ -146,15 +156,15 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.posOffset = float(v)/10000
         self.turnsOffset_val.setText("{:.3f}".format(v/10000))
 
-    def angPosCb(self, v):
+    def absPosCb(self, v):
         pass
 
     def singleAngCb(self, v):
-        self.angPosLabel.setText("{:.6f}".format(v/100))
+        self.angPosLabel.setText("{:.2f}".format(v/100))
         self.angPosSlider.setValue(v)
 
     def multiAngCb(self, v):
-        self.angPosLabel.setText("{:.6f}".format(v/100))
+        self.angPosLabel.setText("{:.2f}".format(v/100))
         self.angPosSlider.setValue(v)
 
     def singlePosCb(self, v):
@@ -163,7 +173,7 @@ class RmdUI(WidgetUI, CommunicationHandler):
 
     def singleOffsetCb(self, v):
         self.singleOffset_val.setText("{}".format(v))
-    
+
     def multiPosCb(self, v):
         self.multiPos_val.setText("{}".format(v))
 
@@ -206,7 +216,18 @@ class RmdUI(WidgetUI, CommunicationHandler):
 
     def updateTimer(self):
         pass
-        self.send_commands("rmd", ["connected", "voltage", "error", "state", "pos_turns", "pos_turns_offset", "torque", "multi_pos_raw", "multi_offset", "single_pos", "single_offset", "multi_ang"], self.prefix)
+        self.send_commands("rmd", ["connected", "voltage", "error", "state", "pos_turns", "pos_turns_offset", "torque",
+                           "multi_pos_raw", "multi_offset", "single_pos", "single_offset", "multi_ang"], self.prefix)
+
+    def readPlanAccel(self):
+        self.send_command("rmd", "plan_accel", self.prefix)
+
+    def accelCb(self):
+        # Unpack the accel parameters from the uint64
+        self.maxPosAccel_val.setValue()
+        self.maxPosDecel_val.setValue()
+        self.maxVelAccel_val.setValue()
+        self.maxVelDecel_val.setValue()
 
     def writePlanAccel(self):
         pass
@@ -215,7 +236,14 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.send_command("rmd", "pid", self.prefix)
 
     def submitPid(self):
-        pass
+        val = struct.pack('8B', self.ip_val.value(),
+                          self.ii_val.value(),
+                          self.vp_val.value(),
+                          self.vi_val.value(),
+                          self.kp_val.value(),
+                          self.ki_val.value(), 0, 0)
+        valInt = int.from_bytes(val, 'little')
+        self.send_value("rmd", "pid", valInt, instance=self.prefix)
 
     def pidCb(self, v):
         # Unpack the PID parameters from the uint64
@@ -226,32 +254,79 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.vi_val.setValue(vi)
         self.ip_val.setValue(ip)
         self.ii_val.setValue(ii)
-        pass
+
+    def executeMotion(self, _, pos=None, vel=None, kp=None, kd=None, tff=None ):
+
+        pos_deg = self.desired_pos_val.value() if pos is None else pos
+        pos_rad = math.radians( pos_deg )
+        pos_i = int((pos_rad + 12.5) / 25.0 * 0xFFFF)
+
+        vel_deg = self.desired_vel_val.value() if vel is None else vel
+        vel_rad = math.radians( vel_deg )
+        vel_i = int((vel_rad + 45.0) / 90.0 * 0xFFF)
+        byte_2 = (vel_i >> 4) & 0xFF
+
+        kp_arg = self.motion_pos_gain.value() if kp is None else kp
+        kp_i = int( kp_arg / 500.0 * 0xFFF)
+        byte_3 = (vel_i & 0xF) << 4 | (kp_i & 0xF00) >> 8
+        byte_4 = kp_i & 0xFF
+
+        vp_arg = self.motion_vel_gain.value() if kd is None else kd
+        vp_i = int( vp_arg / 5.0 * 0xFFF)
+        byte_5 = (vp_i >> 4) & 0xFF
+
+        torq_arg = self.motion_ff_torque.value() if tff is None else tff
+        torq_i = int((torq_arg + 24.0) / 48.0 * 0xFFF)
+        byte_6 = (vp_i & 0xF) << 4 | (torq_i & 0xF00) >> 8
+        byte_7 = torq_i & 0xFF
+
+        print(pos_i, vel_i, kp_i, vp_i, torq_i)
+
+        val = struct.pack('>HBBBBBB', pos_i, byte_2, byte_3, byte_4, byte_5, byte_6, byte_7)
+        valInt = int.from_bytes(val,'big',signed=False)
+        print(valInt, hex(valInt))
+
+        # Split the value into two int64_t types in order to avoid overflow
+        # from converting just a single uint64_t to an int64_t
+        valInt_low = valInt & 0xFFFFFFFF
+        valInt_high = (valInt >> 32) & 0xFFFFFFFF
+        # print(hex(valInt_low | (valInt_high << 32)))
+        self.send_value("rmd", "motion", val=valInt_low, adr=valInt_high, instance=self.prefix)
+        
+        # Send the stop motor command after the specified time
+        self.stopMotorTimer.start(3000)
+
+    def motionCb(self, v):
+        vInt = int.from_bytes(v.to_bytes(8,'big',signed=True),'big',signed=False)
+        print(vInt, hex(vInt))
 
     def setOffset(self):
         self.send_value("rmd", "multi_offset", 0, instance=self.prefix)
 
     def home(self):
-        pass
+        self.executeMotion(0, pos=0, vel=0, kp=1, kd=0, tff=0)
         # self.send_value("rmd","apos", 0, instance=self.prefix)
 
+    def brake(self, checked):
+        self.send_value("rmd", "brake", int(checked), instance=self.prefix)
+
     def resetMultiturnValue(self):
-        self.send_value("rmd","function", 1, instance=self.prefix)
+        self.send_value("rmd", "function", 1, instance=self.prefix)
 
     def setRmdCanId(self):
         pass
 
     def setRmdBaudrate(self):
         if self.rmdCanCheckBox.isChecked():
-            self.send_value("rmd","baudrate", self.rmdBaudrateComboBox.currentIndex(), instance=self.prefix)
+            self.send_value("rmd", "baudrate", self.rmdBaudrateComboBox.currentIndex(), instance=self.prefix)
 
     def applyCanSettings(self):
         # spdPreset = str(self.comboBox_baud.currentIndex()+3) # 3 is lowest preset!
         # self.send_value("rmd","canspd",spdPreset,instance=self.prefix)
         canId = str(self.spinBox_id.value())
-        self.send_value("rmd","canid", canId, instance=self.prefix)
+        self.send_value("rmd", "canid", canId, instance=self.prefix)
         self.init_ui()  # Update UI
 
     def applyMaxTorque(self):
         torqueScaler = str(int(self.maxTorqueSpinBox.value() * 100))
-        self.send_value("rmd","maxtorque", torqueScaler, instance=self.prefix)
+        self.send_value("rmd", "maxtorque", torqueScaler, instance=self.prefix)
