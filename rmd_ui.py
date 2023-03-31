@@ -90,6 +90,7 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.register_callback("rmd", "single_ang", self.singleAngCb, self.prefix, int)
         self.register_callback("rmd", "multi_ang", self.multiAngCb, self.prefix, int)
         self.register_callback("rmd", "torque", self.torqueCb, self.prefix, int)
+        self.register_callback("rmd", "spd", self.spdCb, self.prefix, int)
         self.register_callback("rmd", "pid", self.pidCb, self.prefix, int)
         self.register_callback("rmd", "motion", self.motionCb, self.prefix, int)
 
@@ -188,6 +189,10 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.curTorqueLabel.setText("{:.2f}".format(v/100*torqueConstant))
         self.curTorqueSlider.setValue(v)
 
+    def spdCb(self, v):
+        self.curSpeedLabel.setText("{}".format(v))
+        self.curSpeedSlider.setValue(v)
+
     def showErrors(self, codes):
         if not self.connected:
             self.label_errornames.setText("Not connected")
@@ -216,7 +221,7 @@ class RmdUI(WidgetUI, CommunicationHandler):
 
     def updateTimer(self):
         pass
-        self.send_commands("rmd", ["connected", "voltage", "error", "state", "pos_turns", "pos_turns_offset", "torque",
+        self.send_commands("rmd", ["connected", "voltage", "error", "state", "pos_turns", "pos_turns_offset", "torque", "spd",
                            "multi_pos_raw", "multi_offset", "single_pos", "single_offset", "multi_ang"], self.prefix)
 
     def readPlanAccel(self):

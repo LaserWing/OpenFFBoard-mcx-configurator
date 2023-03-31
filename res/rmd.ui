@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>690</width>
+    <width>771</width>
     <height>636</height>
    </rect>
   </property>
@@ -27,9 +27,9 @@
        <property name="geometry">
         <rect>
          <x>200</x>
-         <y>125</y>
+         <y>110</y>
          <width>281</width>
-         <height>136</height>
+         <height>166</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -45,22 +45,28 @@
         </size>
        </property>
        <property name="title">
-        <string>Position/Torque</string>
+        <string>State</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="0" colspan="3">
-         <widget class="QSlider" name="angPosSlider">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>Current position in degrees from the stored center</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QSlider::groove:horizontal {
+       <widget class="QSlider" name="angPosSlider">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>45</y>
+          <width>261</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Current position in degrees from the stored center</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QSlider::groove:horizontal {
     border: 1px solid #DDDDDD;
     height: 16px;
 }
@@ -71,34 +77,150 @@ QSlider::handle:horizontal {
 	border-color:grey;
 	width: 5px;
 }</string>
-          </property>
-          <property name="minimum">
-           <number>-600</number>
-          </property>
-          <property name="maximum">
-           <number>600</number>
-          </property>
-          <property name="tracking">
-           <bool>true</bool>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="tickPosition">
-           <enum>QSlider::TicksAbove</enum>
-          </property>
-          <property name="tickInterval">
-           <number>90</number>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0" colspan="3">
-         <widget class="QSlider" name="curTorqueSlider">
-          <property name="toolTip">
-           <string>Current torque produced by the RMD motor</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QSlider::groove:horizontal {
+        </property>
+        <property name="minimum">
+         <number>-600</number>
+        </property>
+        <property name="maximum">
+         <number>600</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="tickPosition">
+         <enum>QSlider::TicksAbove</enum>
+        </property>
+        <property name="tickInterval">
+         <number>90</number>
+        </property>
+       </widget>
+       <widget class="QLabel" name="curTorqueLabel_units">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>115</y>
+          <width>141</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string> N·m (torque)</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="curTorqueLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>115</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <property name="indent">
+         <number>-1</number>
+        </property>
+       </widget>
+       <widget class="QLabel" name="angPosLabel">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>25</y>
+          <width>111</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <property name="indent">
+         <number>-1</number>
+        </property>
+       </widget>
+       <widget class="QLabel" name="curSpeed_units">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>70</y>
+          <width>141</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string> °/s (speed)</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="curSpeedLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <property name="indent">
+         <number>-1</number>
+        </property>
+       </widget>
+       <widget class="QSlider" name="curSpeedSlider">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>90</y>
+          <width>261</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>Current torque produced by the RMD motor</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QSlider::groove:horizontal {
     border: 1px solid #DDDDDD;
     height: 16px;
 }
@@ -109,86 +231,83 @@ QSlider::handle:horizontal {
 	border-color:grey;
 	width: 5px;
 }</string>
-          </property>
-          <property name="minimum">
-           <number>-600</number>
-          </property>
-          <property name="maximum">
-           <number>600</number>
-          </property>
-          <property name="tracking">
-           <bool>true</bool>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="tickPosition">
-           <enum>QSlider::TicksAbove</enum>
-          </property>
-          <property name="tickInterval">
-           <number>90</number>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1" colspan="2">
-         <widget class="QLabel" name="curTorqueLabel_units">
-          <property name="text">
-           <string>N·m (torque)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="curTorqueLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>0</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-          <property name="margin">
-           <number>0</number>
-          </property>
-          <property name="indent">
-           <number>-1</number>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="angPosLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>0</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-          <property name="margin">
-           <number>0</number>
-          </property>
-          <property name="indent">
-           <number>-1</number>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1" colspan="2">
-         <widget class="QLabel" name="angPosLabel_units">
-          <property name="text">
-           <string>° (position)</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+        </property>
+        <property name="minimum">
+         <number>-600</number>
+        </property>
+        <property name="maximum">
+         <number>600</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="tickPosition">
+         <enum>QSlider::TicksAbove</enum>
+        </property>
+        <property name="tickInterval">
+         <number>90</number>
+        </property>
+       </widget>
+       <widget class="QSlider" name="curTorqueSlider">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>135</y>
+          <width>261</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>Current torque produced by the RMD motor</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QSlider::groove:horizontal {
+    border: 1px solid #DDDDDD;
+    height: 16px;
+}
+
+QSlider::handle:horizontal {
+	background-color:#2eeeff;
+	border: 1px solid black;
+	border-color:grey;
+	width: 5px;
+}</string>
+        </property>
+        <property name="minimum">
+         <number>-600</number>
+        </property>
+        <property name="maximum">
+         <number>600</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="tickPosition">
+         <enum>QSlider::TicksAbove</enum>
+        </property>
+        <property name="tickInterval">
+         <number>90</number>
+        </property>
+       </widget>
+       <widget class="QLabel" name="angPosLabel_units">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>25</y>
+          <width>131</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string> ° (position)</string>
+        </property>
+       </widget>
       </widget>
       <widget class="QGroupBox" name="infoBox">
        <property name="geometry">
@@ -196,7 +315,7 @@ QSlider::handle:horizontal {
          <x>200</x>
          <y>5</y>
          <width>281</width>
-         <height>116</height>
+         <height>101</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -208,89 +327,123 @@ QSlider::handle:horizontal {
        <property name="title">
         <string>Info</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout_2">
-        <item row="1" column="0">
-         <widget class="QLabel" name="axisStateLabel">
-          <property name="toolTip">
-           <string>Axis state is one of: IDLE, WAIT_READY, START_RUNNIG, or RUNNING</string>
-          </property>
-          <property name="text">
-           <string>Axis state:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="voltageLabel">
-          <property name="toolTip">
-           <string>The current RMD motor voltage</string>
-          </property>
-          <property name="text">
-           <string>Voltage:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLabel" name="label_state">
-          <property name="toolTip">
-           <string>Axis state is one of: IDLE, WAIT_READY, START_RUNNIG, or RUNNING</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="label_voltage">
-          <property name="toolTip">
-           <string>The current RMD motor voltage</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="errorLabel">
-          <property name="toolTip">
-           <string>Any errors returned by the RMD motor</string>
-          </property>
-          <property name="text">
-           <string>Errors:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLabel" name="label_errornames">
-          <property name="toolTip">
-           <string>Any errors returned by the RMD motor</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Plain</enum>
-          </property>
-          <property name="text">
-           <string>None</string>
-          </property>
-          <property name="textFormat">
-           <enum>Qt::AutoText</enum>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QLabel" name="axisStateLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>50</y>
+          <width>53</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>Axis state is one of: IDLE, WAIT_READY, START_RUNNIG, or RUNNING</string>
+        </property>
+        <property name="text">
+         <string>Axis state:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="voltageLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>26</y>
+          <width>43</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>The current RMD motor voltage</string>
+        </property>
+        <property name="text">
+         <string>Voltage:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_state">
+        <property name="geometry">
+         <rect>
+          <x>144</x>
+          <y>50</y>
+          <width>131</width>
+          <height>18</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>Axis state is one of: IDLE, WAIT_READY, START_RUNNIG, or RUNNING</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_voltage">
+        <property name="geometry">
+         <rect>
+          <x>144</x>
+          <y>26</y>
+          <width>131</width>
+          <height>18</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>The current RMD motor voltage</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="errorLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>74</y>
+          <width>34</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>Any errors returned by the RMD motor</string>
+        </property>
+        <property name="text">
+         <string>Errors:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_errornames">
+        <property name="geometry">
+         <rect>
+          <x>144</x>
+          <y>75</y>
+          <width>131</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>Any errors returned by the RMD motor</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="text">
+         <string>None</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+        </property>
+       </widget>
       </widget>
       <widget class="QGroupBox" name="commandBox">
        <property name="geometry">
@@ -298,7 +451,7 @@ QSlider::handle:horizontal {
          <x>10</x>
          <y>5</y>
          <width>181</width>
-         <height>256</height>
+         <height>271</height>
         </rect>
        </property>
        <property name="title">
@@ -435,7 +588,7 @@ QSlider::handle:horizontal {
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>235</y>
+          <y>250</y>
           <width>151</width>
           <height>16</height>
          </rect>
@@ -475,7 +628,7 @@ QSlider::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>200</x>
-         <y>270</y>
+         <y>280</y>
          <width>281</width>
          <height>226</height>
         </rect>
@@ -695,7 +848,7 @@ QSlider::handle:horizontal {
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>270</y>
+         <y>280</y>
          <width>181</width>
          <height>226</height>
         </rect>
@@ -737,7 +890,7 @@ QSlider::handle:horizontal {
         <item row="3" column="0">
          <widget class="QLabel" name="canSpeedLabel_11">
           <property name="text">
-           <string>Vel gain, vₚ :</string>
+           <string>Vel. gain, vₚ :</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
