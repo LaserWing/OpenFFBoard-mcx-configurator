@@ -70,8 +70,17 @@ class RmdUI(WidgetUI, CommunicationHandler):
 
         self.executeMotionButton.clicked.connect(self.executeMotion)
 
+        # Local state
         self.pos = 0.0
         self.posOffset = 0.0
+
+        self.ip = 0
+        self.ii = 0
+        self.vp = 9
+        self.vi = 0
+        self.kp = 0
+        self.ki = 0
+        # end local state
 
         self.register_callback("rmd", "canid", self.spinBox_id.setValue, self.prefix, int)
         self.register_callback("rmd", "connected", self.connectedCb, self.prefix, int)
@@ -111,8 +120,9 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.debugBox.setHidden(not self.advancedButton.isChecked())
         self.motionBox.setHidden(not self.advancedButton.isChecked())
 
-        commands = ["canid", "canspd", "maxtorque"]
+        commands = ["canid", "canspd", "maxtorque", "pid"]
         self.send_commands("rmd", commands, self.prefix)
+
 
     def toggleAdvanced(self, checked):
         self.advancedButton.setArrowType(pyqt6.Qt.ArrowType.DownArrow if checked else pyqt6.Qt.ArrowType.RightArrow)
@@ -130,6 +140,7 @@ class RmdUI(WidgetUI, CommunicationHandler):
 
     def stopMotor(self):
         self.send_value("rmd", "stop", 0, instance=self.prefix)
+        self.submitPid(0, ip=self.ip, ii=self.ii, vp=self.vp, vi=self.vi, kp=self.kp, ki=self.ki )
         self.isRunning = False
         self.stopButton.setText("RUN")
 
@@ -240,25 +251,33 @@ class RmdUI(WidgetUI, CommunicationHandler):
     def readPid(self):
         self.send_command("rmd", "pid", self.prefix)
 
-    def submitPid(self):
-        val = struct.pack('8B', self.ip_val.value(),
-                          self.ii_val.value(),
-                          self.vp_val.value(),
-                          self.vi_val.value(),
-                          self.kp_val.value(),
-                          self.ki_val.value(), 0, 0)
+    def submitPid(self, _, ip=None, ii=None, vp=None, vi=None, kp=None, ki=None):
+
+        ip_v = self.ip_val.value() if ip is None else ip
+        ii_v = self.ii_val.value() if ii is None else ii
+        vp_v = self.vp_val.value() if vp is None else vp
+        vi_v = self.vi_val.value() if vi is None else vi
+        kp_v = self.kp_val.value() if kp is None else kp
+        ki_v = self.ki_val.value() if ki is None else ki
+
+        val = struct.pack('8B', ip_v,
+                          ii_v,
+                          vp_v,
+                          vi_v,
+                          kp_v,
+                          ki_v, 0, 0)
         valInt = int.from_bytes(val, 'little')
         self.send_value("rmd", "pid", valInt, instance=self.prefix)
 
     def pidCb(self, v):
         # Unpack the PID parameters from the uint64
-        ip, ii, vp, vi, kp, ki, _, _ = struct.unpack('8B', v.to_bytes(8, 'little'))
-        self.kp_val.setValue(kp)
-        self.ki_val.setValue(ki)
-        self.vp_val.setValue(vp)
-        self.vi_val.setValue(vi)
-        self.ip_val.setValue(ip)
-        self.ii_val.setValue(ii)
+        self.ip, self.ii, self.vp, self.vi, self.kp, self.ki, _, _ = struct.unpack('8B', v.to_bytes(8, 'little'))
+        self.kp_val.setValue(self.kp)
+        self.ki_val.setValue(self.ki)
+        self.vp_val.setValue(self.vp)
+        self.vi_val.setValue(self.vi)
+        self.ip_val.setValue(self.ip)
+        self.ii_val.setValue(self.ii)
 
     def executeMotion(self, _, pos=None, vel=None, kp=None, kd=None, tff=None ):
 
@@ -309,8 +328,11 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.send_value("rmd", "multi_offset", 0, instance=self.prefix)
 
     def home(self):
-        self.executeMotion(0, pos=0, vel=0, kp=1, kd=0, tff=0)
-        # self.send_value("rmd","apos", 0, instance=self.prefix)
+        # self.executeMotion(0, pos=0, vel=0, kp=1, kd=0, tff=0)
+        # Change the current PID parameters to a suitable set for absolute position command
+        self.submitPid(0, ip=1, ii=1, vp=220, vi=1, kp=100, ki=0 )
+        self.send_value("rmd","apos", 0, instance=self.prefix)
+        self.stopMotorTimer.start(3000)
 
     def brake(self, checked):
         self.send_value("rmd", "brake", int(checked), instance=self.prefix)
