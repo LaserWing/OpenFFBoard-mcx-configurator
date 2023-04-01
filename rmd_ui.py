@@ -34,6 +34,7 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.maxTorque_apply.clicked.connect(self.applyMaxTorque)
         self.pushButton_cansettings.clicked.connect(self.canOptions.exec)
         self.homeButton.clicked.connect(self.home)
+        self.zeroButton.clicked.connect(self.zero)
         self.brakeButton.clicked.connect(self.brake)
         self.submitPlanButton.clicked.connect(self.writePlanAccel)
         self.setOffsetButton.clicked.connect(self.setOffset)
@@ -333,6 +334,9 @@ class RmdUI(WidgetUI, CommunicationHandler):
         self.submitPid(0, ip=1, ii=1, vp=220, vi=1, kp=100, ki=0 )
         self.send_value("rmd","apos", 0, instance=self.prefix)
         self.stopMotorTimer.start(3000)
+
+    def zero(self):
+        self.send_value("rmd", "pos_turns_offset", 0, instance=self.prefix)
 
     def brake(self, checked):
         self.send_value("rmd", "brake", int(checked), instance=self.prefix)
