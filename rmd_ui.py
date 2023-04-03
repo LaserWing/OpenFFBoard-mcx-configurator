@@ -77,7 +77,7 @@ class RmdUI(WidgetUI, CommunicationHandler):
 
         self.ip = 0
         self.ii = 0
-        self.vp = 9
+        self.vp = 0
         self.vi = 0
         self.kp = 0
         self.ki = 0
